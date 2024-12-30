@@ -74,7 +74,7 @@ def run_yt_from_newsboat(config):
     mark_as_read(article_id, database_path)
 
     # Open with mpv player
-    subprocess.run(['mpv', '--no-terminal', get_url])
+    subprocess.run(['mpv', '--cache=yes', '--cache-secs=1', '--no-terminal', get_url])
 
 def run_local_tv(config):
     print('Hello')
