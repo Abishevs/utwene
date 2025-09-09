@@ -7,6 +7,7 @@ import random
 import sys
 import tomllib
 import time
+import argparse
 
 VIDEO_EXTENSIONS = ['.mp4', '.mkv', '.avi', '.mov', '.wmv', '.flv', '.webm', '.3gp', '.mpeg', '.mpg', '.vob']
 
@@ -112,13 +113,23 @@ def yt_is_boring(tmp_file_path, time_threshold=300):
     return False
 
 def main():
+    parser = argparse.ArgumentParser()
+    # Adding optional argument
+    parser.add_argument("--tv", action=argparse.BooleanOptionalAction, help = "Just randomly run TV")
+
+    # Read arguments from command line
+    args = parser.parse_args()
+
+    if args.tv:
+        print("Displaying Output as: % s" % args.tv)
+
     config_path = os.path.expanduser('~/.config/utwene/config.toml')
     tmp_file_path = '/tmp/utwene.log'
 
     try:
         with open(config_path, 'rb') as file:
             config = tomllib.load(file)
-        if yt_is_boring(tmp_file_path):
+        if args.tv or yt_is_boring(tmp_file_path):
             run_local_tv(config)
         else:
             run_yt_from_newsboat(config)
